@@ -1,13 +1,5 @@
 (function () {
-    var libros = [{
-            titulo: "Historia de Chile",
-            autor: "Cualquier weon"
-        },
-        {
-            titulo: "Historia de Chile",
-            autor: "Cualquier weon"
-        }
-    ];
+    var libros = [];
 
 
     // UI
@@ -25,31 +17,41 @@
         d.forEach((e) => {
             data.push(e);
         });
-    })
-
-    console.log(data);
+    });
+    
+    
+    
     let bool = false;
     botonCatalogo.addEventListener('click', function () {
         // mostrador.innerHTML = mostrarCatalogo(data);
         mostrador.innerHTML = mostrarCatalogo(data);
+        select.style.display = 'block';
 
         select.addEventListener('change', (e) => {
             let data_dom = Array.from(document.querySelectorAll('div#libros'));
-            console.log(e.target.value);
             switch (e.target.value) {
-                case "Edhasa":
-                    console.log("edhasa");
+                case "Historia Mapuche":
                     SelectEye(data_dom, e.target.value);
                     break;
-                case "Lom":
+                case "Novena Ola":
                     SelectEye(data_dom, e.target.value);
                     break;
-                case "Quimantu":
+                case "Mar y Tierra":
                     SelectEye(data_dom, e.target.value);
+                    break;
+                default:
+                    SelectEye(data_dom, 'Todos');
                     break;
 
             }
         });
+        
+        let data_dom = Array.from(document.querySelectorAll('div#libros'));
+        data_dom.forEach((e) => {
+            e.addEventListener('click', function(){
+               alert(e.target.value); 
+            });
+        })
     });
 
     var mostrarCatalogo = function (libros) {
@@ -58,12 +60,12 @@
         let html = ``;
         libros.forEach((e) => {
             html += `
-            <div class="col-4" data-eyecolor='${e.eyeColor}' data-about='${e.about}' id='libros'>  
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="img/libros/00${i++}.jpg" alt="Card image cap"> 
+            <div class="col-3" data-editorial='${e.editorial}' data-autor='${e.autor}' id='libros' style='margin-top: 20px;'>  
+                <div class="card" style="width: 15rem;">
+                    <img class="card-img-top" id="portada" src="#" alt="Card image cap"> 
                         <div class="card-body">
-                            <h5 class="card-title">${e.company}</h5>
-                            <p class="card-text">${e.name}</p>
+                            <h5 class="card-title">${e.titulo}</h5>
+                            <p class="card-text">${e.autor}</p>
                             <a href="#" class="btn btn-primary">Go somewhere</a>
                         </div>
                 </div>
@@ -76,10 +78,10 @@
 
 function SelectEye(arreglo, valor_select){
     console.log(valor_select);
-    if(valor_select === 'Edhasa'){
+    if(valor_select === 'Historia Mapuche'){
         arreglo.forEach((e) => {
             console.log(e);
-            if (e.dataset.eyecolor !== 'brown'){
+            if (e.dataset.editorial !== 'Historia Mapuche'){
                 e.style.display = 'none';
             }  
             else {
@@ -87,9 +89,9 @@ function SelectEye(arreglo, valor_select){
             }          
         })
     }
-    else if(valor_select === 'Lom'){
+    else if(valor_select === 'Novena Ola'){
         arreglo.forEach((e) => {
-            if(e.dataset.eyecolor !== 'blue'){
+            if(e.dataset.editorial !== 'Novena Ola'){
                 e.style.display = 'none';
             }
             else {
@@ -97,12 +99,19 @@ function SelectEye(arreglo, valor_select){
             }
         });
     }
-    else if (valor_select === 'Quimantu'){
+    else if (valor_select === 'Mar y Tierra'){
         arreglo.forEach((e) => {
-            if(e.dataset.eyecolor !== 'green'){
+            if(e.dataset.editorial !== 'Mar y Tierra'){
                 e.style.display = 'none';
             }
             else{
+                e.style.display = 'block';
+            }
+        });
+    }
+    else {
+        arreglo.forEach((e) => {
+            if (e.style.display != 'block'){
                 e.style.display = 'block';
             }
         });
